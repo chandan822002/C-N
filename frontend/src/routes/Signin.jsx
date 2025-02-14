@@ -73,13 +73,13 @@ const Signin = () => {
     <section className="bg-primary-100 dark:bg-primary-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-primary-900 dark:text-white">
-          <img className="w-12 h-12 mr-2" src={logo} alt="logo" />
-          Chat Application
+          {/* <img className="w-12 h-12 mr-2" src={logo} alt="logo" /> */}
+          Login
         </a>
         <div className="w-full bg-primary-50  rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-primary-800 dark:border-primary-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-primary-900 md:text-2xl dark:text-white">
-              Sign in to continue
+            Login
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit} action="#">
 
@@ -89,7 +89,7 @@ const Signin = () => {
                 onChange={handleChange}
                 name="email"
                 type="email"
-                placeholder="xyz"
+                placeholder="Email"
                 required
               />
 
@@ -114,7 +114,7 @@ const Signin = () => {
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                   </div>
                 ) : (
-                  'Sign in'
+                  'View Users'
                 )}
               </button>
 
