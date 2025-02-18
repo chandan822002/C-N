@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from "react-router-dom";
+import './index.css'; // Ensure Tailwind CSS or your custom styles are imported
+import App from './App'; // Your main App component
+import reportWebVitals from './reportWebVitals'; // Optional for performance monitoring
+import { BrowserRouter } from "react-router-dom"; // Router for routing
 
-import { Provider } from 'react-redux';
-import { store } from "./redux/store"
+import { Provider } from 'react-redux'; // Redux provider
+import { store } from "./redux/store" // Your Redux store
+
+// Creating the root of the React application
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <Provider store={store} >
+  <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Optional: Measure and log performance
 reportWebVitals();

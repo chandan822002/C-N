@@ -1,25 +1,33 @@
+/* Tailwind's base styles */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* width */
-::-webkit-scrollbar {
-    width: 3px;
-}
-  
+/* Custom scrollbar styles */
 
-/* Track */
+/* Width of the scrollbar */
+::-webkit-scrollbar {
+    width: 8px; /* I increased this slightly for better visibility */
+}
+
+/* Track (the background of the scrollbar) */
 ::-webkit-scrollbar-track {
-    background: #E5E7EB;
+    background: #E5E7EB; /* Light gray color */
 }
-  
-/* Handle */
+
+/* Handle (the draggable part of the scrollbar) */
 ::-webkit-scrollbar-thumb {
-    background: #9CA3AF;
-    border-radius: 5px;
+    background: #9CA3AF; /* Gray color for the scrollbar handle */
+    border-radius: 5px;  /* Rounded edges for the scrollbar handle */
 }
-  
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #4B5563;
+    background: #4B5563; /* Darker gray when hovered */
+
+
+    /* Firefox scrollbar styling */
+scrollbar-width: thin; /* Makes the scrollbar thinner in Firefox */
+scrollbar-color: #9CA3AF #E5E7EB; /* Handle and track colors for Firefox */
+
 }

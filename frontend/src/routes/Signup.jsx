@@ -5,9 +5,9 @@ import { createAccount } from '../redux/authReducer/action';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import CustomInput from "../components/CommonComponents/CustomInput"
+import CustomInput from "../components/CommonComponents/CustomInput";
 import CustomPasswordInput from '../components/CommonComponents/CustomPasswordInput';
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ const Signup = () => {
     const sign_in_success = useSelector((state) => state.authReducer.sign_in_success);
 
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -26,16 +27,15 @@ const Signup = () => {
         name: '',
     });
 
-    //  handel input change
+    // Handle input changes
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    //  handel user input submit
+    // Handle user input submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Perform form submission or validation here
-
+        
         const user = {
             name: formData.name.trim(),
             password: formData.password.trim(),
@@ -61,20 +61,25 @@ const Signup = () => {
         }
     };
 
-    //  set password visibility
+    // Toggle password visibility
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    //  useEffect
+    // Toggle confirm password visibility
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
+
+    // useEffect
     useEffect(() => {
 
-        //  if user already login
-        if(sign_in_success){
+        // if user is already logged in
+        if (sign_in_success) {
             navigate('/');
         }
 
-        //  sign up fail
+        // sign up failure
         if (!sign_up_processing && sign_up_failed && !sign_up_success) {
             toast.error(sign_up_message, { position: toast.POSITION.BOTTOM_LEFT });
         }
@@ -93,17 +98,16 @@ const Signup = () => {
         <section className="bg-primary-100 dark:bg-primary-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-primary-900 dark:text-white">
-                    {/* <img className="w-12 h-12 mr-2" src={logo} alt="logo" /> */}
                     User Registration
                 </a>
                 <div className="w-full bg-primary-50 rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-primary-800 dark:border-primary-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-primary-900 md:text-2xl dark:text-white">
-                        User Registration
+                            User Registration
                         </h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit} action="#">
+                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
 
-                            {/* user name input */}
+                            {/* User name input */}
                             <CustomInput
                                 label="Your name"
                                 value={formData.name}
@@ -113,7 +117,7 @@ const Signup = () => {
                                 required
                             />
 
-                            {/* user email password */}
+                            {/* User email input */}
                             <CustomInput
                                 label="Your email"
                                 value={formData.email}
@@ -124,26 +128,43 @@ const Signup = () => {
                                 required
                             />
 
-                            {/* password input */}
-                            <CustomPasswordInput
-                                label="Password"
-                                value={formData.password}
-                                onChange={handleChange}
-                                name="password"
-                                placeholder="••••••••"
-                                required
-                            />
+                            {/* Password input */}
+                            <div className="relative">
+                                <CustomPasswordInput
+                                    label="Password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required
+                                    type={showPassword ? "text" : "password"}
+                                />
+                                <div
+                                    onClick={togglePasswordVisibility}
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                >
+                                    {showPassword ? <BiShow size={24} /> : <BiSolidHide size={24} />}
+                                </div>
+                            </div>
 
-                            {/* confirm password input */}
-                            <CustomPasswordInput
-                                label="Confirm password"
-                                value={formData.confirmPassword}
-                                onChange={handleChange}
-                                name="confirmPassword"
-                                placeholder="••••••••"
-                                required
-                            />
-
+                            {/* Confirm password input */}
+                            <div className="relative">
+                                <CustomPasswordInput
+                                    label="Confirm Password"
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                    name="confirmPassword"
+                                    placeholder="••••••••"
+                                    required
+                                    type={showConfirmPassword ? "text" : "password"}
+                                />
+                                <div
+                                    onClick={toggleConfirmPasswordVisibility}
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                >
+                                    {showConfirmPassword ? <BiShow size={24} /> : <BiSolidHide size={24} />}
+                                </div>
+                            </div>
 
                             <button
                                 type="submit"
@@ -163,7 +184,7 @@ const Signup = () => {
 
                             <p className="text-sm font-semibold text-primary-500 dark:text-primary-400">
                                 Already have an account?{' '}
-                                <span onClick={(e) => { navigate('/signin') }} className="cursor-pointer font-bold ml-2 text-primary-600 hover:underline dark:text-primary-500">
+                                <span onClick={() => { navigate('/signin') }} className="cursor-pointer font-bold ml-2 text-primary-600 hover:underline dark:text-primary-500">
                                     Sign in
                                 </span>
                             </p>
