@@ -1,0 +1,62 @@
+const express = require("express");
+const dotenv = require("dotenv");
+const connectionDB = require("./config/db");
+const userRoutes = require("./routes/user.routes");
+const chatRoutes = require("./routes/chat.routes");
+const messageRoutes = require("./routes/message.routes");
+
+const cors = require('cors');
+
+const app = express();
+dotenv.config();
+connectionDB();
+app.use(cors());
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    console.log("Welcome to chat app");
+    res.send("Welcome to chat app");
+});
+
+app.use("/api/user", userRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
+
+const port = process.env.PORT || 8001;
+const server = app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
+
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "http://localhost:3000 ", 
+    },
+});
+
+io.on("connection", (socket) => {
+    console.log("New socket connection:", socket.id);
+
+    socket.on("setup", (userData) => {
+        console.log("User data:", userData);
+        socket.join(userData._id);
+        socket.emit("connected");
+    });
+
+    socket.on("join chat", (room) => {
+        console.log("Joining room:", room);
+        socket.join(room);
+    });
+
+    socket.on("new message", (newMessageRec) => {
+        console.log("New message received:", newMessageRec);
+        const chat = newMessageRec.chat;
+        if (!chat.users) return console.log("Chat users not defined");
+
+        chat.users.forEach(user => {
+            if (user != newMessageRec.sender._id) {
+                socket.in(user).emit("message received", newMessageRec);
+            }
+        });
+    });
+});
